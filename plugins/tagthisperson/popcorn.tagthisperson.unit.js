@@ -11,7 +11,7 @@ test("Popcorn tagthisperson Plugin", function () {
   expect(expects);
   
   function plus() {
-    if ( ++count===expects ) {
+    if ( ++count === expects ) {
       start();
     }
   }
@@ -29,12 +29,14 @@ test("Popcorn tagthisperson Plugin", function () {
       end: 5, // seconds
       person: 'Anna Sob',
       image: 'http://newshour.s3.amazonaws.com/photos%2Fspeeches%2Fguests%2FRichardNSmith_thumbnail.jpg',
+      href: 'http://annasob.wordpress.com',      
       target: 'tagdiv'
     } )
     .tagthisperson({
       start: 3, // seconds
       end: 10, // seconds
       person: 'Scott',
+      href: 'http://scottdowne.wordpress.com/',
       target: 'tagdiv'
     } )
     .volume(0)
@@ -43,9 +45,9 @@ test("Popcorn tagthisperson Plugin", function () {
   
   interval = setInterval( function() {
     if( popped.currentTime() > 0 && popped.currentTime() <= 5 ) {
-      equals ( tagdiv.childElementCount, 1, "tagdiv now contains one child elements" );
+      equals ( tagdiv.childElementCount, 2, "tagdiv now contains two child elements" );
       plus();
-      equals ( tagdiv.textContent.trim() , "Anna Sob" ,"tagdiv shows the first tag" );
+      equals ( tagdiv.children[0].style.display , "inline", "tagdiv is visible on the page" ); 
       plus();
       clearInterval( interval );
     }
@@ -53,24 +55,19 @@ test("Popcorn tagthisperson Plugin", function () {
   
   interval2 = setInterval( function() {
     if( popped.currentTime() > 3 && popped.currentTime() < 5  ) {
-      equals ( tagdiv.textContent.trim() , "Anna Sob, Scott", "tagdiv shows the first & second tag" );
+      equals (tagdiv.children[1].style.display , "inline", "second tagdiv is visible on the page" );
       plus();
       clearInterval( interval2 );
     }
   }, 2000);
   
   interval3 = setInterval( function() {
-    if( popped.currentTime() > 5 ) {
-      equals ( tagdiv.innerHTML.trim() , "Scott" ,"tagdiv shows the second tag only" );
+    if( popped.currentTime() > 10 ) {
+      equals ( tagdiv.children[1].style.display , "none", "second tagdiv is no longer visible on the page" );
+      plus();
+      equals ( tagdiv.children[0].style.display , "none", "first tagdiv is no longer visible on the page" );
       plus();
       clearInterval( interval3 );
-    }
-  }, 5000);
-  interval4 = setInterval( function() {
-    if( popped.currentTime() > 10 ) {
-      equals ( tagdiv.innerHTML , "" ,"tagdiv is now cleared" );
-      plus();
-      clearInterval( interval4 );
     }
   }, 4000);
 });

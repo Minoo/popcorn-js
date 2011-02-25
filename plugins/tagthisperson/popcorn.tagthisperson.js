@@ -21,27 +21,13 @@
           start: 5, // seconds
           end: 15, // seconds
           person: '@annasob',
+          image:  'http://newshour.s3.amazonaws.com/photos%2Fspeeches%2Fguests%2FRichardNSmith_thumbnail.jpg',
+          href:   'http://annasob.wordpress.com',
           target: 'tagdiv'
         } )
    *
    */
   Popcorn.plugin( "tagthisperson" , ( function() {
-    
-    var peopleArray = [];
-    // one People object per options.target
-    var People = function() {
-      this.name = "";
-      this.contains = { };
-      this.toString = function() {
-        var r = [];
-        for ( var j in this.contains ) {
-          if ( this.contains.hasOwnProperty( j ) ) {
-            r.push( " " + this.contains[ j ] );
-          }
-        }
-        return r.toString();
-      };
-    };
     
     return {
       manifest: {
@@ -60,21 +46,24 @@
         }
       },
       _setup: function( options ) {
-        var exists = false;
-        // loop through the existing objects to ensure no duplicates
-        // the idea here is to have one object per unique options.target
-        for ( var i = 0; i< peopleArray.length; i++ ) {
-          if ( peopleArray[ i ].name === options.target ) {
-            options._p = peopleArray[ i ];  
-            exists = true;
-            break;
-          }
+      
+        var personInfo = "";
+        
+        // make a div to put the information into
+        options._container = document.createElement( 'div' );
+        options._container.style.display = "none";
+        
+        // add all the information regarding URL, image and name of person in person variable
+        personInfo = ( options.image ) ? " <img src='" + options.image + "'/> " : "" ;
+        personInfo += ( options.href ) ? " <a href='" + options.href + "' target='_blank'> " + options.person + " </a> " : options.person ;
+        personInfo += "&nbsp;&nbsp;" ;
+        
+        options._container.innerHTML = personInfo;
+        
+        if ( document.getElementById( options.target ) ) {
+          document.getElementById( options.target ).appendChild( options._container );
         }
-        if ( !exists ) {
-          options._p = new People();
-          options._p.name = options.target;
-          peopleArray.push( options._p );
-        }
+        
       },
       /**
        * @member tagthisperson 
@@ -83,15 +72,7 @@
        * options variable
        */
       start: function( event, options ){
-        if ( options.image ) {
-          options._p.contains[ options.person ] = " <img src='" + options.image + "'/> " + options.person;
-        } else {
-          options._p.contains[ options.person ] = options.person;
-        }
-        //options._p.contains[options.person] = options.person;
-        if ( document.getElementById( options.target ) ) {
-          document.getElementById( options.target ).innerHTML  = options._p.toString();
-        }
+        options._container.style.display = "inline";
       },
       /**
        * @member tagthisperson 
@@ -100,10 +81,7 @@
        * options variable
        */
       end: function(event, options){
-        delete options._p.contains[ options.person ];
-        if ( document.getElementById( options.target ) ) {
-          document.getElementById( options.target ).innerHTML  = options._p.toString();
-        }
+        options._container.style.display = "none";
       }
    };
   })());
