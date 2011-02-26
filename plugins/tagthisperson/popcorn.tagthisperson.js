@@ -71,7 +71,6 @@
         if ( document.getElementById( options.target ) ) {
           document.getElementById( options.target ).appendChild( options._container );
         }
-        
       },
       /**
        * @member tagthisperson 
