@@ -79,7 +79,7 @@
        * options variable
        */
       start: function( event, options ){
-        // insert comma if this is not the last options object
+        // Insert comma if this is not the last options object
         if ( options._container._count[ options.target ] != targetObj[ options.target ] ) {
           options._container.innerHTML += ", ";
         }
