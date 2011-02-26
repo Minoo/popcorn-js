@@ -6,6 +6,7 @@ test("Popcorn tagthisperson Plugin", function () {
       interval,
       interval2,
       interval3,
+      interval4,  
       tagdiv = document.getElementById( 'tagdiv' );
   
   expect(expects);
@@ -37,7 +38,7 @@ test("Popcorn tagthisperson Plugin", function () {
       end: 10, // seconds
       person: 'Scott',
       href: 'http://scottdowne.wordpress.com/',
-      target: 'tagdiv'
+      target: 'tagdiv2'
     } )
     .volume(0)
     .play();
@@ -45,9 +46,9 @@ test("Popcorn tagthisperson Plugin", function () {
   
   interval = setInterval( function() {
     if( popped.currentTime() > 0 && popped.currentTime() <= 5 ) {
-      equals ( tagdiv.childElementCount, 2, "tagdiv now contains two child elements" );
+      equals ( tagdiv.childElementCount, 1, "tagdiv now contains one child elements" );
       plus();
-      equals ( tagdiv.children[0].style.display , "inline", "tagdiv is visible on the page" ); 
+      equals ( tagdiv.children[0].style.display , "inline", "Contents of frist tagdiv is visible on the page" ); 
       plus();
       clearInterval( interval );
     }
@@ -55,17 +56,23 @@ test("Popcorn tagthisperson Plugin", function () {
   
   interval2 = setInterval( function() {
     if( popped.currentTime() > 3 && popped.currentTime() < 5  ) {
-      equals (tagdiv.children[1].style.display , "inline", "second tagdiv is visible on the page" );
+      equals (tagdiv2.children[0].style.display , "inline", "Contents of second tagdiv is visible on the page" );
       plus();
       clearInterval( interval2 );
     }
   }, 2000);
   
   interval3 = setInterval( function() {
-    if( popped.currentTime() > 10 ) {
-      equals ( tagdiv.children[1].style.display , "none", "second tagdiv is no longer visible on the page" );
-      plus();
+    if( popped.currentTime() > 5 ) {
       equals ( tagdiv.children[0].style.display , "none", "first tagdiv is no longer visible on the page" );
+      plus();
+      clearInterval( interval3 );
+    }
+  }, 4000);
+  
+  interval4 = setInterval( function() {
+    if( popped.currentTime() > 10 ) {
+      equals ( tagdiv2.children[0].style.display , "none", "Second tagdiv is no longer visible on the page" );
       plus();
       clearInterval( interval3 );
     }
