@@ -61,7 +61,7 @@
         options._container.style.display = "none";
         options._container._count = {};
         
-        // add all the information regarding URL, image and name of person in person variable
+        // Add all the information regarding URL, image and name of person in person variable
         personInfo = ( options.image ) ? " <img src='" + options.image + "'/> " : "" ;
         personInfo += ( options.href ) ? "<a href='" + options.href + "'target='_blank'>" + options.person + "</a>" : options.person ;
         
