@@ -85,7 +85,6 @@
           options._container.innerHTML += ", ";
         }
         options._container.style.display = "inline";
-
       },
       /**
        * @member tagthisperson 
