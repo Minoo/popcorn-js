@@ -56,7 +56,7 @@
         addCount( options.target );
         var personInfo = "";
 
-        // make a div to put the information into
+        // Make a div to put the information into
         options._container = document.createElement( 'div' );
         options._container.style.display = "none";
         options._container._count = {};
