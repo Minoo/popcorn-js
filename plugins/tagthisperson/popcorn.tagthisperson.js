@@ -30,7 +30,7 @@
   Popcorn.plugin( "tagthisperson" , ( function() {
     // keep track of qty and sequence of options' objects based on the options' target
     var count = 0;
-    var targetObj = {};
+        targetObj = {};
     
     function addCount( target ) {
       targetObj[ target ] = ++count;
@@ -54,8 +54,8 @@
         }
       },
       _setup: function( options ) {
-        addCount( options.target );
         var personInfo = "";
+        addCount( options.target );
         
         // make a div to put the information into
         options._container = document.createElement( 'div' );
@@ -82,7 +82,7 @@
        */
       start: function( event, options ){
         // Insert comma if this is not the last options object
-        if ( options._container._count[ options.target ] != targetObj[ options.target ] ) {
+        if ( options._container._count[ options.target ] !== targetObj[ options.target ] ) {
           options._container.innerHTML += ", ";
         }        
         options._container.style.display = "inline";
