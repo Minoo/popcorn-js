@@ -30,11 +30,6 @@
   Popcorn.plugin( "tagthisperson" , ( function() {
     // keep track of qty and sequence of options' objects based on the options' target
     var count = 0;
-        targetObj = {};
-    
-    function addCount( target ) {
-      targetObj[ target ] = ++count;
-    }
     
     return {
       manifest: {
@@ -55,24 +50,20 @@
       },
       _setup: function( options ) {
         var personInfo = "";
-        addCount( options.target );
         
         // make a div to put the information into
         options._container = document.createElement( 'div' );
         options._container.style.display = "none";
-        options._container._count = {};
         
         // add all the information regarding URL, image and name of person in person variable
-        personInfo = ( options.image ) ? " <img src='" + options.image + "'/> " : "" ;
+        personInfo += ( options.image ) ? " <img src='" + options.image + "'/> " : "" ;
         personInfo += ( options.href ) ? "<a href='" + options.href + "' target='_blank'> " + options.person + "</a>" : options.person ;
         
-        options._container.innerHTML = personInfo;
-        options._container._count[ options.target ] = targetObj[ options.target ];        
+        options._container.innerHTML += personInfo + " | ";
+ 
+
         
-        if ( document.getElementById( options.target ) ) {
-          document.getElementById( options.target ).appendChild( options._container );
-        }
-        
+
       },
       /**
        * @member tagthisperson 
@@ -81,11 +72,11 @@
        * options variable
        */
       start: function( event, options ){
-        // Insert comma if this is not the last options object
-        if ( options._container._count[ options.target ] !== targetObj[ options.target ] ) {
-          options._container.innerHTML += ", ";
-        }        
-        options._container.style.display = "inline";
+        if ( document.getElementById( options.target ) ) {
+          document.getElementById( options.target ).appendChild( options._container );
+          options._container.style.display = "inline";  
+        }
+
       },
       /**
        * @member tagthisperson 
